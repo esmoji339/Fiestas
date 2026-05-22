@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐰 Cumpleaños de Israel - Harry el Conejito</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600;700&family=Bubblegum+Sans&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sky-top: #87CEEB;
+  --sky-bottom: #E0F4FF;
+  --grass-green: #7EC850;
+  --grass-dark: #5DA038;
+  --bunny-white: #FAFAFA;
+  --bunny-pink: #FFB6C1;
+  --bunny-inner-ear: #FF91A4;
+  --carrot-orange: #FF8C42;
+  --carrot-green: #4CAF50;
+  --sun-yellow: #FFD93D;
+  --text-dark: #3D2B1F;
+  --text-accent: #E85D75;
+  --cloud-white: #FFFFFF;
+  --balloon-red: #FF4D6D;
+  --balloon-blue: #4DA6FF;
+  --balloon-yellow: #FFD93D;
+  --balloon-green: #6BCB77;
+  --balloon-purple: #B388FF;
+  --confetti-1: #FF6B6B;
+  --confetti-2: #4ECDC4;
+  --confetti-3: #FFE66D;
+  --confetti-4: #A06CD5;
+  --confetti-5: #FF8C42;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 60%, var(--grass-green) 60%, var(--grass-dark) 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.invitation-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* === CONFETTI === */
+.confetti-container {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  width: 10px;
+  height: 14px;
+  opacity: 0;
+  border-radius: 2px;
+}
+
+.confetti-piece.active {
+  animation: confettiFall 3.5s ease-in forwards;
+}
+
+@keyframes confettiFall {
+  0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+  100% { opacity: 0; transform: translateY(105vh) rotate(720deg) scale(0.5); }
+}
+
+/* === CLOUDS === */
+.cloud {
+  position: fixed;
+  background: var(--cloud-white);
+  border-radius: 50px;
+  opacity: 0.85;
+  z-index: 0;
+}
+
+.cloud::before, .cloud::after {
+  content: '';
+  position: absolute;
+  background: var(--cloud-white);
+  border-radius: 50%;
+}
+
+.cloud-1 {
+  width: 120px; height: 40px; top: 8%; left: -10%;
+  animation: cloudDrift 25s linear infinite;
+}
+.cloud-1::before { width: 50px; height: 50px; top: -25px; left: 20px; }
+.cloud-1::after { width: 35px; height: 35px; top: -15px; left: 60px; }
+
+.cloud-2 {
+  width: 90px; height: 30px; top: 15%; left: -15%;
+  animation: cloudDrift 35s linear infinite 5s;
+}
+.cloud-2::before { width: 40px; height: 40px; top: -20px; left: 15px; }
+.cloud-2::after { width: 28px; height: 28px; top: -12px; left: 45px; }
+
+.cloud-3 {
+  width: 100px; height: 35px; top: 5%; left: -20%;
+  animation: cloudDrift 30s linear infinite 12s;
+}
+.cloud-3::before { width: 45px; height: 45px; top: -22px; left: 18px; }
+.cloud-3::after { width: 30px; height: 30px; top: -14px; left: 55px; }
+
+@keyframes cloudDrift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(100vw + 200px)); }
+}
+
+/* === SUN === */
+.sun {
+  position: fixed;
+  top: 30px;
+  right: 40px;
+  width: 80px;
+  height: 80px;
+  background: var(--sun-yellow);
+  border-radius: 50%;
+  box-shadow: 0 0 40px rgba(255, 217, 61, 0.6), 0 0 80px rgba(255, 217, 61, 0.3);
+  z-index: 0;
+  animation: sunPulse 4s ease-in-out infinite;
+}
+
+.sun-ray {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 4px;
+  height: 20px;
+  background: var(--sun-yellow);
+  border-radius: 2px;
+  transform-origin: center -20px;
+  opacity: 0.7;
+}
+
+@keyframes sunPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* === MAIN CARD === */
+.invitation-card {
+  position: relative;
+  background: rgba(255,255,255,0.92);
+  border-radius: 30px;
+  padding: 45px 35px 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 0 0 4px rgba(255,182,193,0.5);
+  z-index: 10;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+  animation: cardEntrance 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+  transform: scale(0.8) translateY(40px);
+}
+
+@keyframes cardEntrance {
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.card-border-decoration {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 30px;
+  border: 3px dashed var(--bunny-pink);
+  margin: 8px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* === BUNNY SVG === */
+.bunny-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  animation: bunnyBounce 2s ease-in-out infinite;
+  cursor: pointer;
+}
+
+@keyframes bunnyBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.bunny-container:hover {
+  animation: bunnyWiggle 0.5s ease-in-out;
+}
+
+@keyframes bunnyWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+
+/* === TYPOGRAPHY === */
+.title-section {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1rem;
+  color: var(--text-accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  animation: fadeSlideUp 0.8s ease forwards 0.4s;
+  opacity: 0;
+}
+
+.main-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 2.6rem;
+  color: var(--text-accent);
+  text-shadow: 2px 2px 0 rgba(255,182,193,0.4);
+  line-height: 1.1;
+  margin: 8px 0;
+  animation: fadeSlideUp 0.8s ease forwards 0.6s;
+  opacity: 0;
+}
+
+.name-highlight {
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 3.2rem;
+  color: var(--carrot-orange);
+  display: block;
+  text-shadow: 2px 2px 0 rgba(255,140,66,0.25);
+  animation: nameSparkle 3s ease-in-out infinite;
+}
+
+@keyframes nameSparkle {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.15); }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === BUNNY SAYS === */
+.bunny-message {
+  background: linear-gradient(135deg, #FFF5F7, #FFE8EC);
+  border-radius: 20px;
+  padding: 18px 22px;
+  margin: 18px 0;
+  text-align: center;
+  position: relative;
+  border: 2px solid rgba(255,182,193,0.4);
+  animation: fadeSlideUp 0.8s ease forwards 0.8s;
+  opacity: 0;
+}
+
+.bunny-message::before {
+  content: '🐰';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.4rem;
+  background: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bunny-message p {
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 1.15rem;
+  color: var(--text-dark);
+  line-height: 1.5;
+}
+
+/* === DETAILS GRID === */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 20px 0;
+}
+
+.detail-item {
+  background: linear-gradient(145deg, #FFFBF0, #FFF5E6);
+  border-radius: 18px;
+  padding: 16px 14px;
+  text-align: center;
+  border: 2px solid rgba(255,140,66,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  animation: fadeSlideUp 0.8s ease forwards;
+  opacity: 0;
+}
+
+.detail-item:nth-child(1) { animation-delay: 1s; }
+.detail-item:nth-child(2) { animation-delay: 1.15s; }
+.detail-item:nth-child(3) { animation-delay: 1.3s; }
+.detail-item:nth-child(4) { animation-delay: 1.45s; }
+
+.detail-item:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 8px 25px rgba(255,140,66,0.2);
+}
+
+.detail-icon {
+  font-size: 2rem;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.detail-label {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.72rem;
+  color: var(--carrot-orange);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  display: block;
+}
+
+.detail-value {
+  font-family: 'Bubblegum Sans', cursive;
+  font-size: 1.05rem;
+  color: var(--text-dark);
+  margin-top: 4px;
+  display: block;
+  line-height: 1.3;
+}
+
+/* === FOOTER === */
+.card-footer {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 2px dashed rgba(255,182,193,0.4);
+  animation: fadeSlideUp 0.8s ease forwards 1.8s;
+  opacity: 0;
+}
+
+.card-footer p {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.8rem;
+  color: #b89a9a;
+}
+
+.footer-carrots {
+  font-size: 1.3rem;
+  letter-spacing: 6px;
+  margin-top: 5px;
+}
+
+/* === FLOATING BALLOONS === */
+.balloon {
+  position: fixed;
+  bottom: -120px;
+  width: 45px;
+  height: 55px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  z-index: 1;
+  opacity: 0.8;
+}
+
+.balloon::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  width: 1px;
+  height: 40px;
+  background: rgba(0,0,0,0.15);
+  transform: translateX(-50%);
+}
+
+.balloon-1 { background: var(--balloon-red); left: 5%; animation: balloonFloat 12s linear infinite 0s; }
+.balloon-2 { background: var(--balloon-blue); left: 20%; animation: balloonFloat 15s linear infinite 3s; }
+.balloon-3 { background: var(--balloon-yellow); left: 75%; animation: balloonFloat 13s linear infinite 6s; }
+.balloon-4 { background: var(--balloon-green); left: 90%; animation: balloonFloat 14s linear infinite 2s; }
+.balloon-5 { background: var(--balloon-purple); left: 50%; animation: balloonFloat 16s linear infinite 8s; }
+
+@keyframes balloonFloat {
+  0% { transform: translateY(0) rotate(-5deg); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateY(calc(-100vh - 200px)) rotate(5deg); opacity: 0; }
+}
+
+/* === GRASS BLADES === */
+.grass-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.grass-blade {
+  position: absolute;
+  bottom: 0;
+  width: 8px;
+  background: var(--grass-green);
+  border-radius: 50% 50% 0 0;
+  transform-origin: bottom center;
+  animation: grassSway 3s ease-in-out infinite;
+}
+
+@keyframes grassSway {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+/* === SPARKLES on click === */
+.sparkle {
+  position: fixed;
+  pointer-events: none;
+  font-size: 1.4rem;
+  z-index: 200;
+  animation: sparklePop 0.8s ease forwards;
+}
+
+@keyframes sparklePop {
+  0% { opacity: 1; transform: scale(0) translateY(0); }
+  50% { opacity: 1; transform: scale(1.2) translateY(-30px); }
+  100% { opacity: 0; transform: scale(0.5) translateY(-60px); }
+}
+
+/* === MUSIC BUTTON === */
+.music-toggle {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.85);
+  border: 2px solid var(--bunny-pink);
+  cursor: pointer;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  transition: transform 0.3s;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.music-toggle:hover { transform: scale(1.1); }
+.music-toggle.playing { animation: musicPulse 1s ease-in-out infinite; }
+
+@keyframes musicPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,182,193,0.5); }
+  50% { box-shadow: 0 0 0 10px rgba(255,182,193,0); }
+}
+
+/* === PAWS TRAIL === */
+.paw-print {
+  position: fixed;
+  font-size: 1.2rem;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 50;
+  animation: pawAppear 1.5s ease forwards;
+}
+
+@keyframes pawAppear {
+  0% { opacity: 0; transform: scale(0.5) rotate(var(--paw-rot)); }
+  30% { opacity: 0.6; transform: scale(1) rotate(var(--paw-rot)); }
+  100% { opacity: 0; transform: scale(1) rotate(var(--paw-rot)); }
+}
+
+@media (max-width: 500px) {
+  .invitation-card { padding: 35px 22px 30px; border-radius: 24px; }
+  .main-title { font-size: 2rem; }
+  .name-highlight { font-size: 2.5rem; }
+  .details-grid { gap: 10px; }
+  .detail-item { padding: 12px 10px; }
+  .sun { width: 60px; height: 60px; top: 20px; right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- AMBIENT ELEMENTS -->
+<div class="cloud cloud-1"></div>
+<div class="cloud cloud-2"></div>
+<div class="cloud cloud-3"></div>
+
+<div class="sun">
+  <div class="sun-ray" style="transform:rotate(0deg) translateY(-50px)"></div>
+  <div class="sun-ray" style="transform:rotate(45deg) translateY(-50px)"></div>
+  <div class="sun-ray" style="transform:rotate(90deg) translateY(-50px)"></div>
+  <div class="sun-ray" style="transform:rotate(135deg) translateY(-50px)"></div>
+  <div class="sun-ray" style="transform:rotate(180deg) translateY(-50px)"></div>
+  <div class="sun-ray" style="transform:rotate(225deg) translateY(-50px)"></div>
+  <div class="sun-ray" style="transform:rotate(270deg) translateY(-50px)"></div>
+  <div class="sun-ray" style="transform:rotate(315deg) translateY(-50px)"></div>
+</div>
+
+<div class="balloon balloon-1"></div>
+<div class="balloon balloon-2"></div>
+<div class="balloon balloon-3"></div>
+<div class="balloon balloon-4"></div>
+<div class="balloon balloon-5"></div>
+
+<div class="grass-container" id="grassContainer"></div>
+<div class="confetti-container" id="confettiContainer"></div>
+
+<button class="music-toggle" id="musicToggle" title="Música">🎵</button>
+
+<!-- MAIN CARD -->
+<div class="invitation-wrapper">
+  <div class="invitation-card" id="card">
+    <div class="card-border-decoration"></div>
+
+    <!-- BUNNY SVG -->
+    <div class="bunny-container" id="bunnyChar" title="¡Haz clic en Harry!">
+      <svg width="140" height="170" viewBox="0 0 140 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Ears -->
+        <ellipse cx="48" cy="42" rx="16" ry="42" fill="#F5F5F5" stroke="#E0D6D0" stroke-width="1.5"/>
+        <ellipse cx="48" cy="42" rx="9" ry="32" fill="#FFB6C1"/>
+        <ellipse cx="92" cy="42" rx="16" ry="42" fill="#F5F5F5" stroke="#E0D6D0" stroke-width="1.5"/>
+        <ellipse cx="92" cy="42" rx="9" ry="32" fill="#FFB6C1"/>
+        <!-- Head -->
+        <circle cx="70" cy="95" r="40" fill="#F5F5F5" stroke="#E0D6D0" stroke-width="1.5"/>
+        <!-- Eyes -->
+        <circle cx="58" cy="88" r="5.5" fill="#3D2B1F"/>
+        <circle cx="82" cy="88" r="5.5" fill="#3D2B1F"/>
+        <circle cx="56" cy="86" r="2" fill="white"/>
+        <circle cx="80" cy="86" r="2" fill="white"/>
+        <!-- Nose -->
+        <ellipse cx="70" cy="98" rx="4" ry="3" fill="#FF91A4"/>
+        <!-- Mouth -->
+        <path d="M64 103 Q70 110 76 103" stroke="#E0A0A0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <!-- Cheeks -->
+        <ellipse cx="50" cy="100" rx="7" ry="4" fill="#FFD6E0" opacity="0.6"/>
+        <ellipse cx="90" cy="100" rx="7" ry="4" fill="#FFD6E0" opacity="0.6"/>
+        <!-- Body -->
+        <ellipse cx="70" cy="148" rx="30" ry="22" fill="#F5F5F5" stroke="#E0D6D0" stroke-width="1.5"/>
+        <!-- Paws -->
+        <ellipse cx="50" cy="158" rx="10" ry="6" fill="#F0F0F0" stroke="#E0D6D0" stroke-width="1"/>
+        <ellipse cx="90" cy="158" rx="10" ry="6" fill="#F0F0F0" stroke="#E0D6D0" stroke-width="1"/>
+        <!-- Party Hat -->
+        <polygon points="70,30 58,65 82,65" fill="#FF8C42" stroke="#E85D75" stroke-width="1.5"/>
+        <circle cx="70" cy="28" r="5" fill="#FFD93D"/>
+        <line x1="62" y1="50" x2="78" y2="50" stroke="#FFD93D" stroke-width="2" stroke-linecap="round"/>
+        <line x1="60" y1="58" x2="80" y2="58" stroke="#4DA6FF" stroke-width="2" stroke-linecap="round"/>
+        <!-- Carrot in paw -->
+        <polygon points="100,140 115,125 118,128" fill="#FF8C42"/>
+        <line x1="115" y1="125" x2="118" y2="118" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="116" y1="124" x2="121" y2="120" stroke="#4CAF50" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <!-- TITLES -->
+    <div class="title-section">
+      <p class="subtitle">¡Estás invitado al cumpleaños de</p>
+      <h1 class="main-title">
+        <span class="name-highlight">Israel</span>
+        ¡Fiesta con Harry el Conejito! 🥕
+      </h1>
+    </div>
+
+    <!-- BUNNY MESSAGE -->
+    <div class="bunny-message">
+      <p>¡Hola amiguito! Soy Harry el Conejito 🐰<br>
+      y te invito a celebrar junto a Israel<br>
+      un día lleno de diversión y zanahorias 🥳</p>
+    </div>
+
+    <!-- DETAILS -->
+    <div class="details-grid">
+      <div class="detail-item" onclick="popDetail(this)">
+        <span class="detail-icon">📅</span>
+        <span class="detail-label">Fecha</span>
+        <span class="detail-value">Viernes 19 de Septiembre</span>
+      </div>
+      <div class="detail-item" onclick="popDetail(this)">
+        <span class="detail-icon">🕐</span>
+        <span class="detail-label">Hora</span>
+        <span class="detail-value">10:00 AM</span>
+      </div>
+      <div class="detail-item" onclick="openWaze()" style="cursor:pointer;">
+        <span class="detail-icon">📍</span>
+        <span class="detail-label">Lugar</span>
+        <span class="detail-value">MoonLight House<br>Orotina</span>
+        <span style="display:block; margin-top:6px; font-size:0.7rem; color:#4DA6FF; font-weight:700; letter-spacing:1px;">📌 Abrir en Waze</span>
+      </div>
+      <div class="detail-item" onclick="popDetail(this)">
+        <span class="detail-icon">🎂</span>
+        <span class="detail-label">Temática</span>
+        <span class="detail-value">Harry el Conejito 🐰</span>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="card-footer">
+      <p>Con cariño, la familia de Israel 💕</p>
+      <div class="footer-carrots">🥕🐰🥕🐰🥕</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// === GRASS BLADES ===
+const grassContainer = document.getElementById('grassContainer');
+for (let i = 0; i < 60; i++) {
+  const blade = document.createElement('div');
+  blade.className = 'grass-blade';
+  blade.style.left = `${(i / 60) * 100}%`;
+  blade.style.height = `${25 + Math.random() * 35}px`;
+  blade.style.animationDelay = `${Math.random() * 2}s`;
+  blade.style.opacity = 0.6 + Math.random() * 0.4;
+  blade.style.background = Math.random() > 0.5 ? '#7EC850' : '#6AB840';
+  grassContainer.appendChild(blade);
+}
+
+// === CONFETTI ===
+function launchConfetti() {
+  const container = document.getElementById('confettiContainer');
+  const colors = ['#FF6B6B','#4ECDC4','#FFE66D','#A06CD5','#FF8C42','#FFB6C1','#4DA6FF','#6BCB77'];
+  for (let i = 0; i < 50; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.width = `${6 + Math.random() * 8}px`;
+    piece.style.height = `${8 + Math.random() * 10}px`;
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.animationDelay = `${Math.random() * 1.5}s`;
+    piece.style.animationDuration = `${2.5 + Math.random() * 2}s`;
+    container.appendChild(piece);
+    setTimeout(() => piece.classList.add('active'), 50);
+    setTimeout(() => piece.remove(), 5000);
+  }
+}
+
+// Initial confetti on load
+setTimeout(launchConfetti, 1200);
+
+// === CLICK SPARKLES ===
+const sparkles = ['✨','⭐','🌟','💫','🥕','🐰'];
+document.addEventListener('click', (e) => {
+  const s = document.createElement('div');
+  s.className = 'sparkle';
+  s.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+  s.style.left = `${e.clientX - 10}px`;
+  s.style.top = `${e.clientY - 10}px`;
+  document.body.appendChild(s);
+  setTimeout(() => s.remove(), 800);
+});
+
+// === BUNNY CLICK ===
+document.getElementById('bunnyChar').addEventListener('click', () => {
+  launchConfetti();
+  const msgs = ['¡Hop hop!','🥕 ¡Zanahoria!','¡Vamos a jugar!','¡Fiesta fiesta!','¡Yeeei!'];
+  const bubble = document.createElement('div');
+  bubble.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+  bubble.style.cssText = `
+    position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    background:white; padding:12px 24px; border-radius:20px;
+    font-family:'Bubblegum Sans',cursive; font-size:1.3rem;
+    color:#E85D75; box-shadow:0 4px 20px rgba(0,0,0,0.15);
+    z-index:200; pointer-events:none; animation:sparklePop 1.2s ease forwards;
+  `;
+  document.body.appendChild(bubble);
+  setTimeout(() => bubble.remove(), 1200);
+});
+
+// === DETAIL POP ===
+function popDetail(el) {
+  el.style.transform = 'scale(1.08)';
+  setTimeout(() => el.style.transform = '', 300);
+}
+
+// === OPEN WAZE ===
+function openWaze() {
+  // Coordenadas de MoonLight House, Orotina
+  // Ajustá lat/lng si necesitás más precisión
+  const lat = 9.92207;
+  const lng = -84.5106992;
+  const wazeURL = `https://www.waze.com/ul?ll=${lat},${lng}&navigate=yes&zoom=17`;
+  window.open(wazeURL, '_blank');
+}
+
+// === PAW PRINTS on mouse move (desktop) ===
+let lastPaw = 0;
+document.addEventListener('mousemove', (e) => {
+  const now = Date.now();
+  if (now - lastPaw < 400) return;
+  lastPaw = now;
+  const paw = document.createElement('div');
+  paw.className = 'paw-print';
+  paw.textContent = '🐾';
+  paw.style.left = `${e.clientX - 10}px`;
+  paw.style.top = `${e.clientY + 10}px`;
+  paw.style.setProperty('--paw-rot', `${-20 + Math.random() * 40}deg`);
+  document.body.appendChild(paw);
+  setTimeout(() => paw.remove(), 1500);
+});
+
+// === SIMPLE MUSIC (oscillator melody) ===
+let audioCtx = null;
+let isPlaying = false;
+
+function toggleMusic() {
+  const btn = document.getElementById('musicToggle');
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (isPlaying) {
+    isPlaying = false;
+    btn.classList.remove('playing');
+    btn.textContent = '🎵';
+    return;
+  }
+  isPlaying = true;
+  btn.classList.add('playing');
+  btn.textContent = '🔊';
+  playMelody();
+}
+
+function playMelody() {
+  if (!isPlaying) return;
+  const notes = [523,587,659,698,784,698,659,587,523,0,659,784,880,784,659,523,0];
+  const duration = 0.22;
+  notes.forEach((freq, i) => {
+    if (!isPlaying) return;
+    setTimeout(() => {
+      if (!isPlaying || !freq) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+      osc.connect(gain).connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }, i * duration * 1000);
+  });
+  setTimeout(() => { if (isPlaying) playMelody(); }, notes.length * duration * 1000 + 500);
+}
+
+document.getElementById('musicToggle').addEventListener('click', toggleMusic);
+</script>
+</body>
+</html>
